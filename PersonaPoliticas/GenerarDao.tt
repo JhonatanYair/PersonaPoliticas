@@ -1,0 +1,93 @@
+﻿<#@ template language="C#" hostspecific="True" #>
+<#@ import namespace="System.IO" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+
+<#
+    string folderPath = Path.Combine(Path.GetDirectoryName(Host.TemplateFile), "Models");
+    string outputFolder = Path.Combine(Path.GetDirectoryName(Host.TemplateFile), "Service");
+    Directory.CreateDirectory(outputFolder); // Crear la carpeta para los archivos de salida
+
+    // Obtiene la lista de archivos en la carpeta
+    string[] files = Directory.GetFiles(folderPath);
+     string palabraBuscada = "Context";
+
+    foreach (string file in files)
+    {
+
+        string className = Path.GetFileNameWithoutExtension(file);
+        bool contienePalabra = className.IndexOf(palabraBuscada, StringComparison.OrdinalIgnoreCase) >= 0;
+
+        if (contienePalabra)
+        {
+            continue; // Saltar la generación del archivo si contiene la palabra buscada
+        }
+
+
+#>
+
+using PersonaPoliticas.Models;
+using PersonaPoliticas.Datos;
+
+namespace PersonaPoliticas.Services
+{
+    public class <#= className #>Service : I<#= className #>Service
+    {
+        private DBPersonaContext context;
+
+        public <#= className #>Service(DBPersonaContext dbContext)
+        {
+            context = dbContext;
+        }
+
+        public IEnumerable<<#= className #>> Get()
+        {
+            return context.<#= className #>;
+        }
+
+        public async Task Save(<#= className #> <#= className.ToLower() #>)
+        {
+            context.Add(<#= className.ToLower() #>);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task Update(Guid id, <#= className #> <#= className.ToLower() #>)
+        {
+            var <#= className.ToLower() #>Actual = context.<#= className #>.Find(id);
+
+            if (<#= className.ToLower() #>Actual != null)
+            {
+                <#= className.ToLower() #>Actual = <#= className.ToLower() #>;
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task Delete(Guid id)
+        {
+            var <#= className.ToLower() #>Actual = context.<#= className #>.Find(id);
+
+            if (<#= className.ToLower() #>Actual != null)
+            {
+                context.Remove(<#= className.ToLower() #>Actual);
+                await context.SaveChangesAsync();
+            }
+        }
+    }
+
+    public interface I<#= className #>Service
+    {
+        IEnumerable<<#= className #>> Get();
+        Task Save(<#= className #> <#= className.ToLower() #>);
+        Task Update(Guid id, <#= className #> <#= className.ToLower() #>);
+        Task Delete(Guid id);
+    }
+}
+
+<#
+    string outputPath = Path.Combine(outputFolder, $"{className}Service.cs");
+    File.WriteAllText(outputPath, this.GenerationEnvironment.ToString());
+    this.GenerationEnvironment.Clear();
+#>
+<#
+    }
+#>
