@@ -19,14 +19,13 @@ namespace PersonaPoliticas.Services
             return context.Genero;
         }
 
-        public async Task<Genero> Save(Genero genero)
+        public async Task Save(Genero genero)
         {
             context.Add(genero);
             await context.SaveChangesAsync();
-            return genero;
         }
 
-        public async Task<Genero> Update(int id, Genero genero)
+        public async Task Update(int id, Genero genero)
         {
             var generoActual = context.Genero.Find(id);
 
@@ -35,9 +34,6 @@ namespace PersonaPoliticas.Services
                 generoActual = genero;
                 await context.SaveChangesAsync();
             }
-
-            return genero;
-
         }
 
         public async Task Delete(int id)
@@ -55,8 +51,8 @@ namespace PersonaPoliticas.Services
     public interface IGeneroService
     {
         IEnumerable<Genero> Get();
-        Task<Genero> Save(Genero genero);
-        Task<Genero> Update(int id, Genero genero);
+        Task Save(Genero genero);
+        Task Update(int id, Genero genero);
         Task Delete(int id);
     }
 }

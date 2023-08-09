@@ -51,7 +51,7 @@ namespace PersonaPoliticas.Services
             await context.SaveChangesAsync();
         }
 
-        public async Task Update(Guid id, <#= className #> <#= className.ToLower() #>)
+        public async Task Update(int id, <#= className #> <#= className.ToLower() #>)
         {
             var <#= className.ToLower() #>Actual = context.<#= className #>.Find(id);
 
@@ -62,7 +62,7 @@ namespace PersonaPoliticas.Services
             }
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(int id)
         {
             var <#= className.ToLower() #>Actual = context.<#= className #>.Find(id);
 
@@ -78,8 +78,8 @@ namespace PersonaPoliticas.Services
     {
         IEnumerable<<#= className #>> Get();
         Task Save(<#= className #> <#= className.ToLower() #>);
-        Task Update(Guid id, <#= className #> <#= className.ToLower() #>);
-        Task Delete(Guid id);
+        Task Update(int id, <#= className #> <#= className.ToLower() #>);
+        Task Delete(int id);
     }
 }
 

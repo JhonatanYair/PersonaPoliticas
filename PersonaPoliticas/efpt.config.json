@@ -20,11 +20,15 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[PersonaHijo]",
+         "Name": "[dbo].[Hijo]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[PersonaPadre]",
+         "Name": "[dbo].[Padre]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Persona]",
          "ObjectType": 0
       }
    ],

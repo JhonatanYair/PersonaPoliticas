@@ -9,24 +9,24 @@ using System.Collections.Generic;
 
 namespace PersonaPoliticas.Datos.Configurations
 {
-    public partial class PersonaPadreConfiguration : IEntityTypeConfiguration<PersonaPadre>
+    public partial class PadreConfiguration : IEntityTypeConfiguration<Padre>
     {
-        public void Configure(EntityTypeBuilder<PersonaPadre> entity)
+        public void Configure(EntityTypeBuilder<Padre> entity)
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
 
-            entity.Property(e => e.Nombre)
+            entity.Property(e => e.Ocupacion)
                 .HasMaxLength(50)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.Genero)
-                .WithMany(p => p.PersonaPadre)
-                .HasForeignKey(d => d.GeneroId)
-                .HasConstraintName("FK_PersonaPadre_Genero");
+            entity.HasOne(d => d.IdPersonaNavigation)
+                .WithMany(p => p.Padre)
+                .HasForeignKey(d => d.IdPersona)
+                .HasConstraintName("FK_Padre_Persona");
 
             OnConfigurePartial(entity);
         }
 
-        partial void OnConfigurePartial(EntityTypeBuilder<PersonaPadre> entity);
+        partial void OnConfigurePartial(EntityTypeBuilder<Padre> entity);
     }
 }

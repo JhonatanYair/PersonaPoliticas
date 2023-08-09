@@ -25,18 +25,8 @@ namespace PersonaPoliticas.Controllers
         public async Task<IActionResult> Post([FromBody] Genero genero)
         {
 
-            var nuevoGenero = await generoService.Save(genero);
-
-            if (nuevoGenero != null)
-            {
-                return Ok(nuevoGenero); // Retorna el nuevo registro agregado
-            }
-            else
-            {
-                // Maneja el error si es necesario
-                return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
-
+             await generoService.Save(genero);           
+             return Ok(); // Retorna el nuevo registro agregado           
         }
 
         [HttpPut("{id}")]

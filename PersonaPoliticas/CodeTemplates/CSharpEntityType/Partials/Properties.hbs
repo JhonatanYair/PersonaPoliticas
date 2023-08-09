@@ -17,7 +17,6 @@
         {{{nav-property-annotation}}}
 {{/each}}
 {{#if nav-property-collection}}
-        [NotMapped]
         [JsonIgnore]
         public virtual ICollection<{{nav-property-type}}> {{nav-property-name}} { get; set; }
 {{else}}
